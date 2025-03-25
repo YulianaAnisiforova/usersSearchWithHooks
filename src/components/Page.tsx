@@ -1,27 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import style from './Page.module.css'
-import axios from 'axios'
-
-type SearchUserType = {
-    login: string,
-    id: number,
-}
-type SearchResultType = {
-    items: SearchUserType[],
-}
-type UserType = {
-    login: string,
-    id: number,
-    avatar_url: string,
-    followers: number,
-}
+import {SearchUserType} from '../types/type'
+import Search from './Search'
+import UsersList from './UsersList'
+import UserDetails from './UserDetails'
 
 const Page = () => {
-    const [selectedUser, setSelectedUser] = useState<SearchUserType | null>(null)
-    const [userDetails, setUserDetails] = useState<null | UserType>(null)
-    const [users, setUsers] = useState<SearchUserType[]>([])
-    const [tempSearch, setTempSearch] = useState('Yu')
-    const [searchTerm, setSearchTerm] = useState('Yu')
+    const [selectedUser, setSelectedUser] =
+        useState<SearchUserType | null>(null)
+    const initialSearchState: string = 'Yuliana'
+    const [searchTerm, setSearchTerm] = useState(initialSearchState)
 
     useEffect(() => {
         if (selectedUser) {
@@ -29,59 +17,16 @@ const Page = () => {
         }
     }, [selectedUser]);
 
-    useEffect(() => {
-        axios.get<SearchResultType>(`https://api.github.com/search/users?q=${searchTerm}`)
-            .then(response => setUsers(response.data.items))
-
-    }, [searchTerm]);
-
-    useEffect(() => {
-        if (selectedUser) {
-            // document.title = selectedUser.login
-
-            axios.get<UserType>(`https://api.github.com/users/${selectedUser.login}`)
-                .then(response => setUserDetails(response.data))
-        }
-    }, [selectedUser]);
-
     return (
         <div className={style.container}>
-
             <div>
-                <div>
-                    <input placeholder="search" value={tempSearch}
-                           onChange={(e) => {
-                               setTempSearch(e.currentTarget.value)
-                           }}
-                    />
-                    <button onClick={() => {
-                        setSearchTerm(tempSearch)
-                    }}>find
-                    </button>
-                </div>
-
-                <ul>
-                    {users.map(u =>
-                        <li key={u.id}
-                            className={selectedUser === u ? style.selected : ''}
-                            onClick={() => {
-                                setSelectedUser(u)
-                            }}>
-                            {u.login}
-                        </li>
-                    )}
-                </ul>
+                <Search value={searchTerm} onSubmit={(value: string) => {setSearchTerm(value)}} />
+                <button onClick={() => {setSearchTerm(initialSearchState)}}>reset</button>
+                <UsersList searchTerm={searchTerm}
+                           selectedUser={selectedUser}
+                           onUserSelect={(user) => {setSelectedUser(user)}}/>
             </div>
-
-            {userDetails &&
-                <div>
-                    <img src={userDetails.avatar_url} alt={'avatar'} className={style.avatar}/>
-                    <div>
-                        <span> {userDetails.login}, </span>
-                        <span> number of followers: {userDetails.followers} </span>
-                    </div>
-                </div>
-            }
+            <UserDetails user={selectedUser} />
         </div>
     )
 }
