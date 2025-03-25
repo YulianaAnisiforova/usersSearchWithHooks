@@ -23,11 +23,11 @@ const Page = () => {
     const [tempSearch, setTempSearch] = useState('Yu')
     const [searchTerm, setSearchTerm] = useState('Yu')
 
-    // useEffect(() => {
-    //     if (selectedUser) {
-    //         document.title = selectedUser.login
-    //     }
-    // }, [selectedUser]);
+    useEffect(() => {
+        if (selectedUser) {
+            document.title = selectedUser.login
+        }
+    }, [selectedUser]);
 
     useEffect(() => {
         axios.get<SearchResultType>(`https://api.github.com/search/users?q=${searchTerm}`)
@@ -37,7 +37,7 @@ const Page = () => {
 
     useEffect(() => {
         if (selectedUser) {
-            document.title = selectedUser.login
+            // document.title = selectedUser.login
 
             axios.get<UserType>(`https://api.github.com/users/${selectedUser.login}`)
                 .then(response => setUserDetails(response.data))
