@@ -9,3 +9,7 @@
 .selected {
     background-color: green;
 }
+
+.avatar {
+    height: 250px;
+}
