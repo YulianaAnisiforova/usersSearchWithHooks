@@ -18,17 +18,17 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
     }, [props.user]);
 
     return (
-        <>
+        <div className={style.detailsBox}>
             {userDetails &&
                 <div>
                     <img src={userDetails.avatar_url} alt={'avatar'} className={style.avatar}/>
-                    <div>
+                    <div className={style.details}>
                         <span> {userDetails.login}, </span>
                         <span> followers: {userDetails.followers} </span>
                     </div>
                 </div>
             }
-        </>
+        </div>
     )
 }
 

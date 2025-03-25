@@ -1,15 +1,50 @@
 .container {
     display: flex;
-}
-
-.container div {
-    padding: 10px;
-}
-
-.selected {
-    background-color: green;
+    margin: 40px;
 }
 
 .avatar {
     height: 250px;
+}
+
+.searchBox {
+    display: flex;
+}
+
+.searchBtn {
+    margin-left: 5px;
+}
+
+.searchBtnBox {
+    display: flex;
+}
+
+.resetBtn {
+    margin-left: 5px;
+}
+
+.users {
+    cursor: pointer;
+}
+
+.users:hover {
+    color: cornflowerblue;
+}
+
+.selected {
+    color: cornflowerblue;
+}
+
+.list {
+    margin-top: 20px;
+}
+
+.detailsBox {
+    margin-top: 30px;
+    margin-left: 30px;
+}
+
+.details {
+    margin-top: 10px;
+    margin-left: 5px;
 }

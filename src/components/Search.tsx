@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from 'react'
+import style from './Page.module.css'
+import {Button, Input} from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 
 type SearchPropsType = {
     value: string,
@@ -13,15 +16,15 @@ const Search: React.FC<SearchPropsType> = (props) => {
     }, [props.value]);
 
     return (
-        <div>
-            <input placeholder="search" value={tempSearch}
+        <div className={style.searchBox}>
+            <Input placeholder="search" value={tempSearch}
                    onChange={(e) => {
                        setTempSearch(e.currentTarget.value)
                    }}
             />
-            <button onClick={() => {props.onSubmit(tempSearch)}}>
-                find
-            </button>
+            <Button type="primary" shape="circle" icon={<SearchOutlined />}
+                    className={style.searchBtn}
+                    onClick={() => {props.onSubmit(tempSearch)}}/>
         </div>
     )
 }
