@@ -48,3 +48,12 @@
     margin-top: 10px;
     margin-left: 5px;
 }
+
+.timer {
+    margin-bottom: 10px;
+}
+
+.timerBox {
+    display: flex;
+    justify-content: right;
+}

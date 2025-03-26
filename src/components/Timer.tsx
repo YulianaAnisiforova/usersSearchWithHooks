@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react'
+import style from './Page.module.css'
 import {SearchUserType} from '../types/type'
+import {Button} from 'antd'
 
 type TimerPropsType = {
     seconds: number,
     onChange: (actualSec: number) => void,
     timerKey: SearchUserType | null,
+    onClose: (bool: boolean) => void,
 }
 
 const Timer: React.FC<TimerPropsType> = (props) => {
@@ -27,7 +30,12 @@ const Timer: React.FC<TimerPropsType> = (props) => {
     }, [props.timerKey])
 
     return (
-        <div>{seconds}</div>
+        <div className={style.timerBox}>
+
+        <Button className={style.timer} shape="circle" onClick={() => {props.onClose(false)}}>
+            {seconds}
+        </Button>
+        </div>
     )
 }
 

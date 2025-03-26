@@ -13,6 +13,7 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
     const startTimerSec = 5
     const [userDetails, setUserDetails] = useState<null | UserType>(null)
     const [seconds, setSeconds] = useState(startTimerSec)
+    const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
         if (props.user) {
@@ -20,6 +21,7 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
                 .then(response => {
                     setSeconds(startTimerSec)
                     setUserDetails(response.data)
+                    setIsOpen(true)
                 })
         }
     }, [props.user]);
@@ -31,11 +33,18 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
         }
     }, [seconds]);
 
+    useEffect(() => {
+        if (!isOpen) {
+            setUserDetails(null)
+            props.onDisappear(null)
+        }
+    }, [isOpen]);
+
     return (
         <div className={style.detailsBox}>
             {userDetails &&
                 <div>
-                    <Timer seconds={seconds} timerKey={props.user}
+                    <Timer seconds={seconds} timerKey={props.user} onClose={(bool: boolean) => setIsOpen(bool)}
                            onChange={(actualSec) => {setSeconds(actualSec)}} />
 
                     <img src={userDetails.avatar_url} alt={'avatar'} className={style.avatar}/>
