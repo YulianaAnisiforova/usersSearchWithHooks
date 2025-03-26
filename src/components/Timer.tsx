@@ -6,8 +6,7 @@ type TimerPropsType = {
 }
 
 const Timer: React.FC<TimerPropsType> = (props) => {
-    const startTimerSec = 10
-    const [seconds, setSeconds] = useState(startTimerSec)
+    const [seconds, setSeconds] = useState(props.seconds)
 
     useEffect(() => {
         setSeconds(props.seconds)

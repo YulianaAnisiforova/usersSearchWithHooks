@@ -32,7 +32,7 @@ const Page = () => {
                            onUserSelect={(user) => {setSelectedUser(user)}}/>
             </div>
             <div>
-                <UserDetails user={selectedUser} />
+                <UserDetails user={selectedUser} onDisappear={(newUser) => setSelectedUser(newUser)} />
             </div>
         </div>
     )

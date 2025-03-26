@@ -6,10 +6,11 @@ import Timer from './Timer'
 
 type UserDetailsPropsType = {
     user: SearchUserType | null,
+    onDisappear: (newUser: SearchUserType | null) => void,
 }
 
 const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
-    const startTimerSec = 10
+    const startTimerSec = 5
     const [userDetails, setUserDetails] = useState<null | UserType>(null)
     const [seconds, setSeconds] = useState(startTimerSec)
 
@@ -26,6 +27,7 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
     useEffect(() => {
         if (seconds < 1) {
             setUserDetails(null)
+            props.onDisappear(null)
         }
     }, [seconds]);
 
@@ -34,6 +36,7 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
             {userDetails &&
                 <div>
                     <Timer seconds={seconds} onChange={(actualSec) => {setSeconds(actualSec)}} />
+
                     <img src={userDetails.avatar_url} alt={'avatar'} className={style.avatar}/>
                     <div className={style.details}>
                         <span> {userDetails.login}, </span>
