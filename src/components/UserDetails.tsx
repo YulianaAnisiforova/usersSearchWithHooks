@@ -18,8 +18,8 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
         if (props.user) {
             axios.get<UserType>(`https://api.github.com/users/${props.user.login}`)
                 .then(response => {
-                    setUserDetails(response.data)
                     setSeconds(startTimerSec)
+                    setUserDetails(response.data)
                 })
         }
     }, [props.user]);
@@ -35,7 +35,8 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
         <div className={style.detailsBox}>
             {userDetails &&
                 <div>
-                    <Timer seconds={seconds} onChange={(actualSec) => {setSeconds(actualSec)}} />
+                    <Timer seconds={seconds} timerKey={props.user}
+                           onChange={(actualSec) => {setSeconds(actualSec)}} />
 
                     <img src={userDetails.avatar_url} alt={'avatar'} className={style.avatar}/>
                     <div className={style.details}>
