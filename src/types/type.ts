@@ -5,6 +5,7 @@ export type SearchUserType = {
 
 export type SearchResultType = {
     items: SearchUserType[],
+    total_count: number,
 }
 
 export type UserType = {

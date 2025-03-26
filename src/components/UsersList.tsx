@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import style from './Page.module.css'
 import {SearchResultType, SearchUserType} from '../types/type'
 import axios from 'axios'
-import {List} from 'antd'
+import {List, Pagination} from 'antd'
 
 type UserListPropsType = {
     searchTerm: string,
@@ -12,12 +12,28 @@ type UserListPropsType = {
 
 const UsersList: React.FC<UserListPropsType> = (props) => {
     const [users, setUsers] = useState<SearchUserType[]>([])
+    const [total_count, set_total_count] = useState(0)
+    const [currentPage, setCurrentPage] = useState(1)
+    const pageSize = 20
+
+    const getUsers = (currentPage: number) => {
+        axios.get<SearchResultType>(`https://api.github.com/search/users?q=${props.searchTerm}&page=${currentPage}`+
+        `&per_page=${pageSize}`)
+            .then(response => {
+                setUsers(response.data.items)
+                set_total_count(response.data.total_count)
+            })
+    }
 
     useEffect(() => {
-        axios.get<SearchResultType>(`https://api.github.com/search/users?q=${props.searchTerm}`)
-            .then(response => setUsers(response.data.items))
+        getUsers(currentPage)
 
-    }, [props.searchTerm]);
+    }, [props.searchTerm, currentPage]);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page)
+        getUsers(page)
+    }
 
     return (
         <div className={style.list}>
@@ -29,6 +45,14 @@ const UsersList: React.FC<UserListPropsType> = (props) => {
                                                    onClick={() => {props.onUserSelect(u)}}>
                                             {u.login}
                                         </List.Item>}
+            />
+            <br/>
+
+            <Pagination current={currentPage}
+                        pageSize={pageSize}
+                        showSizeChanger={false}
+                        onChange={handlePageChange}
+                        total={total_count}
             />
         </div>
     )

@@ -16,6 +16,8 @@ const Page = () => {
     useEffect(() => {
         if (selectedUser) {
             document.title = selectedUser.login
+        } else {
+            document.title = 'GitHub search'
         }
     }, [selectedUser]);
 
