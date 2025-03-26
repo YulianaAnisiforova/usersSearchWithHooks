@@ -47,10 +47,16 @@ const UserDetails: React.FC<UserDetailsPropsType> = (props) => {
                     <Timer seconds={seconds} timerKey={props.user} onClose={(bool: boolean) => setIsOpen(bool)}
                            onChange={(actualSec) => {setSeconds(actualSec)}} />
 
+                    <h2>{userDetails.login}</h2>
                     <img src={userDetails.avatar_url} alt={'avatar'} className={style.avatar}/>
                     <div className={style.details}>
-                        <span> {userDetails.login}, </span>
+                        <div> name: {userDetails.name} </div>
+                        <div> bio: {userDetails.bio} </div>
+                        <span> following: {userDetails.following}, </span>
                         <span> followers: {userDetails.followers} </span>
+                        <div> company: {userDetails.company} </div>
+                        <div> at GitHub since: {userDetails.created_at} </div>
+                        <div> last update: {userDetails.updated_at} </div>
                     </div>
                 </div>
             }
