@@ -1,46 +1,117 @@
-# Getting Started with Create React App
+# GitHub User Search Application Documentation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This application allows users to search for GitHub users, view their profiles, and see basic information. The application features a clean UI with search functionality, pagination, and a timer-based user details display.
 
-In the project directory, you can run:
+## Components
 
-### `npm start`
+### 1. Page Component (`Page.tsx`)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The main container component that orchestrates the application flow.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**Features:**
+- Manages the search term state
+- Tracks the currently selected user
+- Updates document title based on selected user
+- Provides a reset button to return to default search
 
-### `npm test`
+**Props:** None
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**State:**
+- `selectedUser`: Currently selected GitHub user (or null)
+- `searchTerm`: Current search term (default: "Yuliana")
 
-### `npm run build`
+### 2. Search Component (`Search.tsx`)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Handles the search input functionality.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Features:**
+- Controlled input component
+- Submit button to trigger search
+- Maintains temporary search term before submission
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Props:**
+- `value`: Current search term
+- `onSubmit`: Callback when search is submitted
 
-### `npm run eject`
+### 3. UsersList Component (`UsersList.tsx`)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Displays a paginated list of GitHub users matching the search term.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Features:**
+- Fetches users from GitHub API
+- Pagination support (20 users per page)
+- Highlights selected user
+- Click handler to select a user
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Props:**
+- `searchTerm`: Term to search for
+- `selectedUser`: Currently selected user
+- `onUserSelect`: Callback when a user is selected
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 4. UserDetails Component (`UserDetails.tsx`)
 
-## Learn More
+Displays detailed information about a selected GitHub user.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Features:**
+- Fetches user details from GitHub API
+- Displays avatar and basic information
+- Includes a countdown timer (5 seconds)
+- Auto-closes when timer expires or when manually closed
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Props:**
+- `user`: Selected user to display details for
+- `onDisappear`: Callback when details should be closed
+
+### 5. Timer Component (`Timer.tsx`)
+
+A countdown timer used in the UserDetails component.
+
+**Features:**
+- Counts down from specified seconds
+- Resets when timer key changes
+- Provides manual close functionality
+
+**Props:**
+- `seconds`: Initial seconds to count down from
+- `onChange`: Callback when seconds change
+- `timerKey`: Key to identify when timer should reset
+- `onClose`: Callback when timer is manually closed
+
+## Styling
+
+The application uses CSS Modules for styling with a `.module.css` file per component. Key styling features include:
+
+- Responsive container layout
+- Styled buttons and inputs
+- Selected user highlighting
+- Avatar image styling
+- Clean list presentation
+
+## API Usage
+
+The application interacts with the GitHub API at:
+
+1. User search: `https://api.github.com/search/users`
+    - Parameters: `q` (search term), `page`, `per_page`
+
+2. User details: `https://api.github.com/users/{login}`
+    - Returns detailed information about a specific user
+
+## Usage Instructions
+
+1. Enter a search term in the input field
+2. Click the search button or press Enter
+3. Browse the paginated list of results
+4. Click on a user to view their details
+    - Details will automatically close after 5 seconds
+    - Click the timer button to close manually
+5. Use the reset button (trash icon) to return to the default search
+
+## Dependencies
+
+- React
+- Ant Design (UI components)
+- Axios (HTTP requests)
+- TypeScript
