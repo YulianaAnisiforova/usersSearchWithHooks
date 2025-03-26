@@ -39,6 +39,7 @@ const UsersList: React.FC<UserListPropsType> = (props) => {
         <div className={style.list}>
             <List
                 size="small"
+                style={{width: '260px'}}
                 bordered
                 dataSource={users}
                 renderItem={(u: any) => <List.Item className={props.selectedUser === u ? style.selected : style.users}
